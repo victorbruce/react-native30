@@ -1,37 +1,38 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
 
 const App = () => {
-  const [name, setName] = useState("React Native");
-  const [age, setAge] = useState(20);
-
-  const handleNameChange = val => {
-    setName(val);
-  };
-
-  const handleAgeChange = val => {
-    setAge(val);
-  };
+  const [months, setMonths] = useState([
+    { name: "January", key: "1" },
+    { name: "Febuary", key: "2" },
+    { name: "March", key: "3" },
+    { name: "April", key: "4" },
+    { name: "May", key: "5" },
+    { name: "June", key: "6" },
+    { name: "July", key: "7" },
+    { name: "August", key: "8" },
+    { name: "September", key: "9" },
+    { name: "October", key: "10" },
+    { name: "November", key: "11" },
+    { name: "December", key: "12" }
+  ]);
 
   return (
     <View style={styles.container}>
-      <Text>Name: {name}</Text>
-      <Text>Age: {age}</Text>
-      <View>
-        <Text>Enter name:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="eg. John Doe"
-          onChangeText={handleNameChange}
-        />
-        <Text>Enter age:</Text>
-        <TextInput
-          keyboardType="numeric"
-          style={styles.input}
-          placeholder="eg. 12"
-          onChangeText={handleAgeChange}
-        />
-      </View>
+      <Text style={styles.header}>Months in a year</Text>
+      <FlatList
+        data={months}
+        renderItem={({ item }) => <Text style={styles.text}>{item.name}</Text>}
+      />
+      {/* <ScrollView>
+        {months.map(month => {
+          return (
+            <View key={month.key}>
+              <Text style={styles.text}>{month.name}</Text>
+            </View>
+          );
+        })}
+      </ScrollView> */}
     </View>
   );
 };
@@ -39,16 +40,25 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: "#eee",
+    paddingTop: 40,
+    paddingHorizontal: 20
+    // alignItems: "center",
+    // justifyContent: "center"
   },
-  input: {
+  header: {
+    textAlign: "center",
+    fontSize: 24,
+    marginBottom: 30
+  },
+  text: {
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    backgroundColor: "#fff",
+    borderRadius: 15,
     borderWidth: 1,
-    borderColor: "#777",
-    margin: 10,
-    padding: 8,
-    width: 200
+    borderColor: "black",
+    marginBottom: 30
   }
 });
 
