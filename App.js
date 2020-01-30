@@ -1,19 +1,13 @@
 import React from "react";
-
 import { Text, View, StyleSheet, Button } from "react-native";
+import Login from "./components/Login";
+import Logo from "./components/Logo";
 
 const App = () => {
   return (
     <View style={styles.container}>
-      <Text>Hello world!</Text>
-      <View style={styles.buttonContainer}>
-        <Button
-          style={styles.button}
-          title="Press me!"
-          color="#841584"
-          onPress={() => alert("You clicked on the button")}
-        />
-      </View>
+      <Logo style={styles.logo} />
+      <Login style={styles.login} />
     </View>
   );
 };
@@ -24,8 +18,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
-  buttonContainer: {
-    marginVertical: 20
+  logo: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  login: {
+    flex: 2,
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 
