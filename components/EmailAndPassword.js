@@ -4,27 +4,32 @@ import {
   View,
   TextInput,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView,
+  KeyboardAvoidingView
 } from "react-native";
 
 const EmailAndPassword = () => {
   return (
-    <View contentContainerStyle={styles.container}>
-      <TextInput
-        style={styles.textInput}
-        placeholder="Email"
-        placeholderTextColor="#242424"
-      />
-      <TextInput
-        style={styles.textInput}
-        placeholder="Password"
-        placeholderTextColor="#242424"
-      />
-      <TouchableOpacity>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-      <Text style={styles.signupText}>Don't have an Acccount? signup</Text>
-    </View>
+    <KeyboardAvoidingView style={styles.keyboard} behavior="padding" enabled>
+      <ScrollView contentContainerStyle={styles.container}>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Email"
+          placeholderTextColor="#242424"
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="Password"
+          placeholderTextColor="#242424"
+        />
+        <TouchableOpacity>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+        <Text style={styles.signupText}>Don't have an Acccount? signup</Text>
+        <View style={{ height: 100 }} />
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -32,6 +37,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center"
+  },
+  keyboard: {
+    flex: 1
   },
   textInput: {
     width: 300,
