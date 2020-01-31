@@ -21,13 +21,12 @@ const EmailAndPassword = () => {
         <TextInput
           style={styles.textInput}
           placeholder="Password"
+          secureTextEntry={true}
           placeholderTextColor="#242424"
         />
         <TouchableOpacity>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
-        <Text style={styles.signupText}>Don't have an Acccount? signup</Text>
-        <View style={{ height: 100 }} />
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -55,9 +54,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     paddingVertical: 15,
     marginBottom: 30
-  },
-  signupText: {
-    textAlign: "center"
   }
 });
 

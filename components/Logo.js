@@ -13,7 +13,9 @@ const Logo = () => {
 
 const styles = StyleSheet.create({
   conatiner: {
-   
+   flex: 1,
+   justifyContent: 'center',
+   alignItems: 'center'
   }
 });
 
