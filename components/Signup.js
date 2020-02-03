@@ -3,42 +3,45 @@ import {
   StyleSheet,
   View,
   Text,
-  ScrollView,
   KeyboardAvoidingView,
   TextInput,
   TouchableOpacity
 } from "react-native";
 import Logo from "./Logo";
 
-const Signup = () => {
+const Signup = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Logo />
-      <KeyboardAvoidingView style={styles.keyboard} behavior="padding" enabled>
-        <ScrollView contentContainerStyle={styles.container}>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Email"
-            placeholderTextColor="#242424"
-          />
-          <TextInput
-            style={styles.textInput}
-            placeholder="Password"
-            secureTextEntry={true}
-            placeholderTextColor="#242424"
-          />
-          <TouchableOpacity>
-            <Text style={styles.buttonText}>Signup</Text>
-          </TouchableOpacity>
-        </ScrollView>
-      </KeyboardAvoidingView>
-      <View style={styles.signup}>
-        <Text style={styles.signupText}>Don't have an Acccount?</Text>
+      <Logo style={styles.logo} />
+      <View style={styles.signupForm}>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Email"
+          placeholderTextColor="#242424"
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="Password"
+          secureTextEntry={true}
+          placeholderTextColor="#242424"
+        />
+        <TextInput
+          style={styles.textInput}
+          placeholder="Cofirm Password"
+          secureTextEntry={true}
+          placeholderTextColor="#242424"
+        />
+        <TouchableOpacity>
+          <Text style={styles.buttonText}>Signup</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.login}>
+        <Text style={styles.signupText}>Already have an account?</Text>
         <Text
           style={styles.signupButton}
-          onPress={() => navigation.push("Signup")}
+          onPress={() => navigation.navigate("LoginScreen")}
         >
-          Signup
+          Login
         </Text>
       </View>
     </View>
@@ -48,6 +51,15 @@ const Signup = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  logo: {
+    flex: 1,
+    justifyContent: "center"
+  },
+  signupForm: {
+    flex: 2,
     justifyContent: "center",
     alignItems: "center"
   },
@@ -70,7 +82,7 @@ const styles = StyleSheet.create({
     width: 300,
     marginBottom: 30
   },
-  signup: {
+  login: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "flex-start",

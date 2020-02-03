@@ -4,12 +4,13 @@ import {
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
+  Button,
   Keyboard
 } from "react-native";
 import EmailAndPassword from "./EmailAndPassword";
 import Logo from "./Logo";
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -26,11 +27,11 @@ const Login = ({navigation}) => {
         <View style={styles.signup}>
           <Text style={styles.signupText}>Don't have an Acccount?</Text>
           <Text
-            style={styles.signupButton}
-            onPress={() => navigation.push("Signup")}
-          >
-            Signup
-          </Text>
+          style={styles.signupButton}
+          onPress={() => navigation.navigate("SignupScreen")}
+        >
+          Signup
+        </Text>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "flex-start",
-    flex: 1,
+    flex: 1
   },
   signupText: {
     textAlign: "center",

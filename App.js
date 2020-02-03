@@ -6,14 +6,13 @@ import Login from "./components/Login";
 
 const App = () => {
   return (
-    <View style={styles.container}>
-      <Signup />
-    </View>
+
+      <AppNavigator />
   );
 };
 
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center" }
-});
+// const styles = StyleSheet.create({
+//   container: { flex: 1, justifyContent: "center", alignItems: "center" }
+// });
 
 export default App;
