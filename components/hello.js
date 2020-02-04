@@ -1,20 +1,16 @@
-import React, { Component } from "react";
-import { Text, View } from "react-native";
-import { useAction } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { View, Text } from "react-native";
 import { sayHello } from "../actions/helloAction";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
-const Hello = props => {
-  
+const Hello = () => {
+  const message = useSelector(state => state.hello.message);
+
   return (
     <View>
-      <Text> {props.hello}</Text>
+      <Text>{message ? message : "loading"}</Text>
     </View>
   );
 };
 
-const mapStateToProps = state => ({
-  hello: state.hello.message
-});
-
-export default connect(mapStateToProps, { sayHello })(Hello);
+export default Hello;

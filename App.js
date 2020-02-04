@@ -1,21 +1,26 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import AppNavigator from "./routes/HomeStack";
+import { StyleSheet, Text, View } from "react-native";
 import { Provider } from "react-redux";
-import store from "./store/index";
-import Login from "./components/Login";
-import Hello from './components/hello'
+import AppNavigator from './routes/HomeStack';
+import store from "./store/store";
 
 const App = () => {
+
   return (
     <Provider store={store}>
-      <Hello />
+      <View style={styles.container}>
+        <AppNavigator />
+      </View>
     </Provider>
   );
 };
 
-// const styles = StyleSheet.create({
-//   container: { flex: 1, justifyContent: "center", alignItems: "center" }
-// });
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  }
+});
 
 export default App;

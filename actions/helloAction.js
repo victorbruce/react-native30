@@ -1,6 +1,6 @@
-export const sayHello = () => dispatch => {
-  dispatch({
+export const sayHello = () => {
+  return {
     type: "SAY_HELLO",
-    payload: "Hello React Native in 30 days"
-  });
+    payload: "Hi redux hooks react native"
+  };
 };

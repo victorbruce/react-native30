@@ -1,24 +1,18 @@
 const initialState = {
-  userData : {
-    email: '',
-    password:''
-  },
+  isAuthenticated: true,
   errors: {}
 }
 
-const authReducer = (state, action) => {
+const authReducer = (state=initialState, action) => {
   switch(action.type) {
     case 'LOGIN_USER':
       return {
         ...state,
-        auth: action.payload
+        isAuthenticated: action.payload
       };
-    case 'GET_ERRORS':
-      return {
-        ...state,
-        errors: action.payload
-      }
     default:
       return state;
   }
 }
+
+export default authReducer;

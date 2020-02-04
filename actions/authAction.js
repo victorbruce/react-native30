@@ -1,6 +1,6 @@
-export const loginUser = () => dispatch => {
+export const loginUser = (authenticate = true ) => dispatch => {
   dispatch({
     type: 'LOGIN_USER',
-    payload: true
+    payload: authenticate
   })
 }

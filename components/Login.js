@@ -7,10 +7,12 @@ import {
   Button,
   Keyboard
 } from "react-native";
+import { useSelector } from "react-redux";
 import EmailAndPassword from "./EmailAndPassword";
 import Logo from "./Logo";
 
 const Login = ({ navigation }) => {
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -23,15 +25,16 @@ const Login = ({ navigation }) => {
         </View>
         <View style={styles.form}>
           <EmailAndPassword />
+          {isAuthenticated ? <Text>Authenticated</Text> : <Text>Not authenticated</Text>}
         </View>
         <View style={styles.signup}>
           <Text style={styles.signupText}>Don't have an Acccount?</Text>
           <Text
-          style={styles.signupButton}
-          onPress={() => navigation.navigate("SignupScreen")}
-        >
-          Signup
-        </Text>
+            style={styles.signupButton}
+            onPress={() => navigation.navigate("SignupScreen")}
+          >
+            Signup
+          </Text>
         </View>
       </View>
     </TouchableWithoutFeedback>
