@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Image } from "react-native";
-import { connect } from "react-redux";
-import { sayHello } from "../actions/helloAction";
+
 
 import logo from "../assets/logo.png";
 
 const Logo = () => {
-  const [hello, setHello] = useState("");
 
   return (
     <View style={styles.conatiner}>
@@ -23,10 +21,4 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = state => {
-  return {
-    hello: state.hello.message
-  };
-};
-
-export default connect(mapStateToProps, { sayHello })(Logo);
+export default Logo

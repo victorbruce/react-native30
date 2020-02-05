@@ -1,26 +1,49 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Provider } from "react-redux";
-import AppNavigator from './routes/HomeStack';
-import store from "./store/store";
+import { createStackNavigator } from "react-navigation-stack";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import Loading from "./components/Loading";
+import Home from './screens/Home';
+import Login from './screens/Login';
+import Register from './screens/Register';
 
-const App = () => {
+import * as firebase from "firebase";
 
-  return (
-    <Provider store={store}>
-      <View style={styles.container}>
-        <AppNavigator />
-      </View>
-    </Provider>
-  );
+var firebaseConfig = {
+  apiKey: "AIzaSyBjCSFtytpY6MesZ_k7WUsXMZCqte_QqfA",
+  authDomain: "rnin30days.firebaseapp.com",
+  databaseURL: "https://rnin30days.firebaseio.com",
+  projectId: "rnin30days",
+  storageBucket: "rnin30days.appspot.com",
+  messagingSenderId: "509318577420",
+  appId: "1:509318577420:web:894ca3e942d173021a1d29",
+  measurementId: "G-93XMZWQVWE"
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+firebase.initializeApp(firebaseConfig);
+
+const AppStack = createStackNavigator({
+  HomeScreen: {
+    screen: Home
+  }
+})
+
+const AuthStack = createStackNavigator({
+  LoginScreen: {
+    screen: Login
+  },
+  RegisterScreen: {
+    screen: Register
   }
 });
 
-export default App;
+export default createAppContainer(
+  createSwitchNavigator(
+    {
+      LoadingScreen: Loading,
+      App: AppStack,
+      Auth: AuthStack
+    },
+    {
+      initialRouteName: "LoadingScreen"
+    }
+  )
+)
