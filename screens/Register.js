@@ -68,6 +68,7 @@ export default class Register extends Component {
             <TextInput
               style={styles.input}
               autoCapitalize="none"
+              secureTextEntry={true}
               onChangeText={password => this.setState({ password })}
               value={this.state.password}
             ></TextInput>

@@ -53,6 +53,7 @@ export default class Login extends Component {
             <TextInput
               style={styles.input}
               autoCapitalize="none"
+              secureTextEntry={true}
               onChangeText={password => this.setState({ password })}
               value={this.state.password}
             ></TextInput>
