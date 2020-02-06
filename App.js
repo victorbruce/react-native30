@@ -1,9 +1,14 @@
+import React from "react";
 import { createStackNavigator } from "react-navigation-stack";
+import { createDrawerNavigator } from "react-navigation-drawer";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import Loading from "./components/Loading";
-import Home from './screens/Home';
-import Login from './screens/Login';
-import Register from './screens/Register';
+import Home from "./screens/Home";
+import Login from "./screens/Login";
+import Register from "./screens/Register";
+import About from "./screens/About";
+import Another from "./screens/Another";
+import Header from "./shared/Header";
 
 import * as firebase from "firebase";
 
@@ -20,11 +25,47 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const AppStack = createStackNavigator({
+const HomeStack = createStackNavigator({
   HomeScreen: {
-    screen: Home
+    screen: Home,
+    navigationOptions: ({ navigation }) => {
+      return {
+        header: () => (
+          <Header title="Home" hasBackButton={false} navigation={navigation} />
+        )
+      };
+    }
+  },
+  AnotherScreen: {
+    screen: Another
   }
-})
+});
+
+const AboutStack = createStackNavigator({
+  AboutScreen: {
+    screen: About,
+    navigationOptions: ({ navigation }) => {
+      return {
+        header: () => <Header title="About" navigation={navigation} />
+      };
+    }
+  }
+});
+
+const AppStack = createDrawerNavigator({
+  HomeStackScreen: {
+    screen: HomeStack,
+    navigationOptions: {
+      title: "Home"
+    }
+  },
+  AboutStackScreen: {
+    screen: AboutStack,
+    navigationOptions: {
+      title: "About"
+    }
+  }
+});
 
 const AuthStack = createStackNavigator({
   LoginScreen: {
@@ -46,4 +87,4 @@ export default createAppContainer(
       initialRouteName: "LoadingScreen"
     }
   )
-)
+);
