@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignContent: "center",
     justifyContent: "center",
-    backgroundColor: "purple"
+    backgroundColor: "#000"
   },
   headerTitle: {
     flexDirection: "row",
