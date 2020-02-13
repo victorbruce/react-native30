@@ -69,10 +69,12 @@ const AppStack = createDrawerNavigator({
 
 const AuthStack = createStackNavigator({
   LoginScreen: {
-    screen: Login
+    screen: Login,
+    navigationOptions: { headerShown: false }
   },
   RegisterScreen: {
-    screen: Register
+    screen: Register,
+    navigationOptions: { headerShown: false }
   }
 });
 
