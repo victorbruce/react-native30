@@ -6,7 +6,7 @@ import Loading from "./components/Loading";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import Register from "./screens/Register";
-import About from "./screens/About";
+import Transaction from "./screens/Transaction";
 import Another from "./screens/Another";
 import Header from "./shared/Header";
 
@@ -35,18 +35,15 @@ const HomeStack = createStackNavigator({
         )
       };
     }
-  },
-  AnotherScreen: {
-    screen: Another
   }
 });
 
 const AboutStack = createStackNavigator({
-  AboutScreen: {
-    screen: About,
+  TransactionScreen: {
+    screen: Transaction,
     navigationOptions: ({ navigation }) => {
       return {
-        header: () => <Header title="About" navigation={navigation} />
+        header: () => <Header title="Transaction" navigation={navigation} />
       };
     }
   }
@@ -59,10 +56,10 @@ const AppStack = createDrawerNavigator({
       title: "Home"
     }
   },
-  AboutStackScreen: {
+  TransactionStackScreen: {
     screen: AboutStack,
     navigationOptions: {
-      title: "About"
+      title: "Transaction"
     }
   }
 });
