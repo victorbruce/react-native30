@@ -8,7 +8,7 @@ import {
   SafeAreaView
 } from "react-native";
 import Logo from "../components/Logo";
-import * as firebase from "firebase";
+import firebase from "../config/firebase";
 
 export default class Register extends Component {
   state = {
@@ -23,9 +23,13 @@ export default class Register extends Component {
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(userCredentials => {
-        return userCredentials.user.updateProfile({
-          displayName: this.state.name
-        });
+        return firebase
+          .collection("users")
+          .doc(userCredentials.user.uid)
+          .set({
+            totalAmount: 0,
+            name: this.state.name
+          });
       })
       .catch(error => this.setState({ errorMessage: error.message }));
   };
