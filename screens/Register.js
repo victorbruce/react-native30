@@ -25,18 +25,12 @@ export default class Register extends Component {
       .then(userCredentials => {
         console.log("user-credentials ", userCredentials.user);
         return firebase
-          .firestore()
-          .collection("users")
-          .doc(userCredentials.user.uid)
-          .set(
-            {
-              email: this.state.email,
-              name: this.state.name
-            },
-            { merge: ture }
-          );
+          .firestore().collection('users').doc(userCredentials.user.uid).set({
+            email: this.state.email,
+            name: this.state.name
+          }, {merge: true})
       })
-      .then(() => console.log("collection creation successfull"))
+      .then(() => console.log('collection creation successfull'))
       .catch(error => this.setState({ errorMessage: error.message }));
   };
 
