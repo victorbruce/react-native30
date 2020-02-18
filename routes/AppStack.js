@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import HomeStack from '../routes/HomeStack';
 import TransactionStack from '../routes/TransactionStack';

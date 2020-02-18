@@ -23,14 +23,20 @@ export default class Register extends Component {
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(userCredentials => {
+        console.log("user-credentials ", userCredentials.user);
         return firebase
+          .firestore()
           .collection("users")
           .doc(userCredentials.user.uid)
-          .set({
-            totalAmount: 0,
-            name: this.state.name
-          });
+          .set(
+            {
+              email: this.state.email,
+              name: this.state.name
+            },
+            { merge: ture }
+          );
       })
+      .then(() => console.log("collection creation successfull"))
       .catch(error => this.setState({ errorMessage: error.message }));
   };
 

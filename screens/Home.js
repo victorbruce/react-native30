@@ -21,7 +21,7 @@ export default class Home extends Component {
   conmponentDidMount = () => {
     const { email, displayName } = firebase.auth().currentUser;
     console.log("email", email);
-    console.log("hi")
+    console.log("hi");
     this.setState({ email, displayName });
   };
 
@@ -103,6 +103,8 @@ export default class Home extends Component {
             }
           />
         </View>
+
+        <Button title="sign out" onPress={this.signOutUser} />
       </View>
     );
   }

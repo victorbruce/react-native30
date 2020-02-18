@@ -1,3 +1,4 @@
+import React from 'react';
 import { createStackNavigator } from "react-navigation-stack";
 import Header from '../shared/Header';
 import Home from '../screens/Home';

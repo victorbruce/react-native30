@@ -1,3 +1,4 @@
+import React from 'react';
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import Loading from '../components/Loading';
 import AppStack from '../routes/AppStack';
