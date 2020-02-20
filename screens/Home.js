@@ -1,28 +1,74 @@
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  Button,
-  Modal
-} from "react-native";
+import { StyleSheet, Text, View, TextInput, Button, Modal } from "react-native";
 import { Ionicons, Feather, MaterialIcons } from "@expo/vector-icons";
 import firebase from "../config/firebase";
-import { auth } from "../config/firebase";
 
 export default class Home extends Component {
   state = {
     email: "",
     displayName: "",
+    totalAmountSaved: 0,
+    deductedAmount: 0,
+    addedAmount: 0,
     addModalOpen: false,
     deductModalOpen: false
   };
-  conmponentDidMount = () => {
-    const { email, displayName } = auth.currentUser;
 
-    this.setState({ email, displayName });
+  addAmount = amount => {
+    const { uid } = firebase.auth().currentUser;
+    const amountInFigures = parseInt(amount);
+    firebase
+      .firestore()
+      .collection("transactions")
+      .doc(uid)
+      .set({
+        type: "Deposit",
+        amount: amountInFigures,
+        createdAt: new Date().toISOString()
+      })
+      .then(() => {
+        console.log("Transaction Added succussfully");
+      })
+      .catch(err => {
+        console.log("Error whilst adding transaction: ", err);
+      });
+  };
+
+  deductAmount = amount => {
+    const { uid } = firebase.auth().currentUser;
+    const amountInFigures = parseInt(amount);
+    firebase
+      .firestore()
+      .collection("transactions")
+      .doc(uid)
+      .set({
+        type: "Withdrawal",
+        amount: amountInFigures,
+        createdAt: new Date().toISOString()
+      })
+      .then(() => {
+        console.log("Transaction Deducted succussfully");
+      })
+      .catch(err => {
+        console.log("Error whilst deducting transaction: ", err);
+      });
+  };
+
+  componentDidMount = () => {
+    const { uid } = firebase.auth().currentUser;
+    firebase
+      .firestore()
+      .collection("users")
+      .doc(uid)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          const user = doc.data();
+          const { email, name, totalAmountSaved } = user;
+          this.setState({ email, displayName: name, totalAmountSaved });
+        }
+      })
+      .catch(err => console.log("err", err));
   };
 
   signOutUser = () => {
@@ -30,15 +76,21 @@ export default class Home extends Component {
   };
 
   render() {
+    const {
+      addedAmount,
+      deductedAmount,
+      displayName,
+      totalAmountSaved
+    } = this.state;
     return (
       <View style={styles.container}>
         <View>
+          <Text>Welcome {displayName}</Text>
           <Text style={styles.title}>Amount Saved</Text>
-          <Text>Email: {this.state.email}</Text>
         </View>
 
         <View style={styles.amountWrapper}>
-          <Text style={styles.amountSaved}>GHc 300</Text>
+          <Text style={styles.amountSaved}>GHc {totalAmountSaved}</Text>
         </View>
 
         <View style={styles.icons}>
@@ -66,8 +118,15 @@ export default class Home extends Component {
                   placeholder="Enter amount to deduct"
                   placeholderTextColor="#000"
                   style={styles.modalInput}
+                  onChangeText={deductedAmount =>
+                    this.setState({ deductedAmount })
+                  }
                 />
-                <Button title="Deduct" color="black" />
+                <Button
+                  title="Deduct"
+                  color="black"
+                  onPress={() => this.deductAmount(deductedAmount)}
+                />
               </View>
             </View>
           </Modal>
@@ -88,8 +147,13 @@ export default class Home extends Component {
                   placeholder="Enter amount to add"
                   placeholderTextColor="#000"
                   style={styles.modalInput}
+                  onChangeText={addedAmount => this.setState({ addedAmount })}
                 />
-                <Button title="Add" color="black" />
+                <Button
+                  title="Add"
+                  color="black"
+                  onPress={() => this.addAmount(addedAmount)}
+                />
               </View>
             </View>
           </Modal>
