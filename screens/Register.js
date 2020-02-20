@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Logo from "../components/Logo";
 import firebase from "../config/firebase";
+import { firestore } from "../config/firebase";
 
 export default class Register extends Component {
   state = {
@@ -19,19 +20,24 @@ export default class Register extends Component {
   };
 
   handleSignUp = () => {
+    const { email, password, name } = this.state;
+
     firebase
       .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(userCredentials => {
-        console.log("user-credentials ", userCredentials.user);
-        return firebase
-          .firestore().collection('users').doc(userCredentials.user.uid).set({
-            email: this.state.email,
-            name: this.state.name
-          }, {merge: true})
+      .createUserWithEmailAndPassword(email, password)
+      .then(cred => {
+        console.log("credentials", cred.user.uid);
+        return firestore
+          .collection("users")
+          .doc(cred.user.uid)
+          .set({
+            email: email,
+            name: name,
+            totalAmountSaved: 0,
+            createdAt: new Date().toISOString()
+          });
       })
-      .then(() => console.log('collection creation successfull'))
-      .catch(error => this.setState({ errorMessage: error.message }));
+      .catch(err => console.log(err));
   };
 
   render() {

@@ -9,7 +9,8 @@ import {
   Modal
 } from "react-native";
 import { Ionicons, Feather, MaterialIcons } from "@expo/vector-icons";
-import * as firebase from "firebase";
+import firebase from "../config/firebase";
+import { auth } from "../config/firebase";
 
 export default class Home extends Component {
   state = {
@@ -19,9 +20,8 @@ export default class Home extends Component {
     deductModalOpen: false
   };
   conmponentDidMount = () => {
-    const { email, displayName } = firebase.auth().currentUser;
-    console.log("email", email);
-    console.log("hi");
+    const { email, displayName } = auth.currentUser;
+
     this.setState({ email, displayName });
   };
 
@@ -34,6 +34,7 @@ export default class Home extends Component {
       <View style={styles.container}>
         <View>
           <Text style={styles.title}>Amount Saved</Text>
+          <Text>Email: {this.state.email}</Text>
         </View>
 
         <View style={styles.amountWrapper}>
