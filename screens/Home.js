@@ -7,22 +7,24 @@ export default class Home extends Component {
   state = {
     email: "",
     displayName: "",
-    totalAmountSaved: 0,
+    totalBalance: 0,
     deductedAmount: 0,
     addedAmount: 0,
+    description: "",
     addModalOpen: false,
     deductModalOpen: false
   };
 
-  addAmount = amount => {
+  addAmount = (amount, description) => {
     const { uid } = firebase.auth().currentUser;
     const amountInFigures = parseInt(amount);
     firebase
       .firestore()
-      .collection("transactions")
+      .collection("users")
       .doc(uid)
-      .set({
-        type: "Deposit",
+      .collection("transactions")
+      .add({
+        description: description,
         amount: amountInFigures,
         createdAt: new Date().toISOString()
       })
@@ -64,8 +66,8 @@ export default class Home extends Component {
       .then(doc => {
         if (doc.exists) {
           const user = doc.data();
-          const { email, name, totalAmountSaved } = user;
-          this.setState({ email, displayName: name, totalAmountSaved });
+          const { email, name, totalBalance } = user;
+          this.setState({ email, displayName: name, totalBalance });
         }
       })
       .catch(err => console.log("err", err));
@@ -80,7 +82,8 @@ export default class Home extends Component {
       addedAmount,
       deductedAmount,
       displayName,
-      totalAmountSaved
+      totalBalance,
+      description
     } = this.state;
     return (
       <View style={styles.container}>
@@ -90,7 +93,7 @@ export default class Home extends Component {
         </View>
 
         <View style={styles.amountWrapper}>
-          <Text style={styles.amountSaved}>GHc {totalAmountSaved}</Text>
+          <Text style={styles.amountSaved}>GHc {totalBalance}</Text>
         </View>
 
         <View style={styles.icons}>
@@ -144,6 +147,12 @@ export default class Home extends Component {
               />
               <View style={styles.deductModalContent}>
                 <TextInput
+                  placeholder="Description"
+                  placeholderTextColor="#000"
+                  style={styles.modalInput}
+                  onChangeText={description => this.setState({ description })}
+                />
+                <TextInput
                   placeholder="Enter amount to add"
                   placeholderTextColor="#000"
                   style={styles.modalInput}
@@ -152,7 +161,7 @@ export default class Home extends Component {
                 <Button
                   title="Add"
                   color="black"
-                  onPress={() => this.addAmount(addedAmount)}
+                  onPress={() => this.addAmount(addedAmount, description)}
                 />
               </View>
             </View>

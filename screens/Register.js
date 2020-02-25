@@ -33,7 +33,7 @@ export default class Register extends Component {
           .set({
             email: email,
             name: name,
-            totalAmountSaved: 0,
+            totalBalance: 0,
             createdAt: new Date().toISOString()
           });
       })
