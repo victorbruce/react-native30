@@ -26,30 +26,43 @@ export default class Home extends Component {
       .add({
         description: description,
         amount: amountInFigures,
-        createdAt: new Date().toISOString()
+        createdAt: new Date()
       })
       .then(() => {
         console.log("Transaction Added succussfully");
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(uid)
+          .get()
+          .then(doc => {
+            if (doc.exits) {
+              console.log("my document", doc.data());
+            }
+          });
+        this.setState({ addModalOpen: false });
       })
       .catch(err => {
         console.log("Error whilst adding transaction: ", err);
       });
   };
 
-  deductAmount = amount => {
+  deductAmount = (amount,description) => {
     const { uid } = firebase.auth().currentUser;
     const amountInFigures = parseInt(amount);
     firebase
       .firestore()
-      .collection("transactions")
+      .collection("users")
       .doc(uid)
-      .set({
-        type: "Withdrawal",
+      .collection("transactions")
+      .add({
+        description: description,
         amount: amountInFigures,
-        createdAt: new Date().toISOString()
+        createdAt: new Date()
       })
       .then(() => {
         console.log("Transaction Deducted succussfully");
+        this.setState({ deductModalOpen: false });
       })
       .catch(err => {
         console.log("Error whilst deducting transaction: ", err);
@@ -117,6 +130,12 @@ export default class Home extends Component {
                 }
               />
               <View style={styles.deductModalContent}>
+                <TextInput
+                  placeholder="Description"
+                  placeholderTextColor="#000"
+                  style={styles.modalInput}
+                  onChangeText={description => this.setState({ description })}
+                />
                 <TextInput
                   placeholder="Enter amount to deduct"
                   placeholderTextColor="#000"

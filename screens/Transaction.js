@@ -28,7 +28,7 @@ class Transaction extends Component {
       .then(data => {
         const transactions = [];
         data.forEach(doc => {
-          console.log("my subcollection", doc.data());
+          console.log('HEY HEY:',doc.data());
           transactions.push({
             description: doc.data().description,
             amount: doc.data().amount,
