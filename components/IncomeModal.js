@@ -1,17 +1,17 @@
 import React, { Component } from "react";
-import { StyleSheet, Modal, View, TextInput, Button } from "react-native";
-import { Feather, MaterialIcons } from "@expo/vector-icons";
-// firebase configurations
+import { StyleSheet, View, TextInput, Modal, Button } from "react-native";
+import { Ionicons, Feather, MaterialIcons } from "@expo/vector-icons";
+
 import firebase from "../config/firebase";
 
-class ExpenseModal extends Component {
+class IncomeModal extends Component {
   state = {
     description: "",
-    deductedAmount: 0,
-    expenseModalOpen: false
+    addedAmount: 0,
+    incomeModalOpen: false
   };
 
-  deductAmount = (amount, description) => {
+  addAmount = (amount, description) => {
     const { uid } = firebase.auth().currentUser;
     const amountInFigures = parseInt(amount);
     firebase
@@ -21,41 +21,50 @@ class ExpenseModal extends Component {
       .collection("transactions")
       .add({
         description: description,
-        amount: -amountInFigures,
+        amount: amountInFigures,
         createdAt: new Date()
       })
       .then(() => {
-        console.log("Transaction Deducted succussfully");
-        this.setState({ expenseModalOpen: false });
+        console.log("Transaction Added succussfully");
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(uid)
+          .get()
+          .then(doc => {
+            if (doc.exits) {
+              console.log("my document", doc.data());
+            }
+          });
+        this.setState({ incomeModalOpen: false });
       })
       .catch(err => {
-        console.log("Error whilst deducting transaction: ", err);
+        console.log("Error whilst adding transaction: ", err);
       });
   };
 
   render() {
-    const { deductedAmount, description } = this.state;
+    const { addedAmount, description } = this.state;
     return (
       <View>
         <Feather
-          name="minus-circle"
+          name="plus-circle"
           size={34}
-          style={{ marginRight: 70 }}
-          onPress={() => this.setState({ expenseModalOpen: true })}
+          style={{ marginRight: 10 }}
+          onPress={() => this.setState({ incomeModalOpen: true })}
         />
-        <Modal visible={this.state.expenseModalOpen} animated="slide">
-          <View style={styles.deductModal}>
+        <Modal visible={this.state.incomeModalOpen} animated="slide">
+          <View style={styles.addModal}>
             <MaterialIcons
               name="close"
-              size={32}
-              style={{ ...styles.modalToggle, ...styles.modalClose }}
+              size={34}
               onPress={() =>
                 this.setState({
-                  expenseModalOpen: false
+                  incomeModalOpen: false
                 })
               }
             />
-            <View style={styles.deductModalContent}>
+            <View style={styles.addModalContent}>
               <TextInput
                 placeholder="Description"
                 placeholderTextColor="#000"
@@ -63,17 +72,15 @@ class ExpenseModal extends Component {
                 onChangeText={description => this.setState({ description })}
               />
               <TextInput
-                placeholder="Enter amount to deduct"
+                placeholder="Enter amount to add"
                 placeholderTextColor="#000"
                 style={styles.modalInput}
-                onChangeText={deductedAmount =>
-                  this.setState({ deductedAmount })
-                }
+                onChangeText={addedAmount => this.setState({ addedAmount })}
               />
               <Button
-                title="Deduct"
+                title="Add"
                 color="black"
-                onPress={() => this.deductAmount(deductedAmount, description)}
+                onPress={() => this.addAmount(addedAmount, description)}
               />
             </View>
           </View>
@@ -84,13 +91,13 @@ class ExpenseModal extends Component {
 }
 
 const styles = StyleSheet.create({
-  deductModal: {
+  addModal: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#f4f4f4"
   },
-  deductModalContent: {
+  addModalContent: {
     borderWidth: 1,
     borderColor: "#000",
     width: 300,
@@ -108,4 +115,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ExpenseModal;
+export default IncomeModal;
